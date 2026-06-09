@@ -1,0 +1,2 @@
+# StudentManagement
+GETとPOSTの練習用プロジェクトです。
