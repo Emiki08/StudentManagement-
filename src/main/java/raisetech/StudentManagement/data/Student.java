@@ -1,6 +1,5 @@
-package raisetech.StudentManagement;
+package raisetech.StudentManagement.data;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import  lombok.Getter;
 import  lombok.Setter;
 
@@ -9,12 +8,15 @@ import  lombok.Setter;
 
 public class Student {
 
-  private  String id;
+  private  int id;
   private  String name;
   private  String furigana;
   private  String nickname;
   private  String email;
   private  String area;
   private  int age;
-  private  String gender;
+  private  String sex;
+  // 追加
+  private String remark;
+  private boolean isDeleted;
 }
