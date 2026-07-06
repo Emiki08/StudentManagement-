@@ -4,37 +4,38 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import raisetech.StudentManagement.Student;
+import raisetech.StudentManagement.controller.converter.StudentConverter;
+import raisetech.StudentManagement.data.Student;
+import raisetech.StudentManagement.data.StudentCourse;
+import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
+
+
+
+
 
 @RestController
 public class StudentController {
 
   private StudentService service;
+  private StudentConverter converter;
 
   @Autowired
-  public StudentController(StudentService service) {
+  public StudentController(StudentService service, StudentConverter converter) {
     this.service = service;
+    this.converter = converter;
   }
 
   @GetMapping("/studentList")
-  public List<Student> getStudentList() {
-    return service.searchStudentList();
+  public List<StudentDetail> getStudentList() {
+    List<Student> students = service.searchStudentList();
+    List<StudentCourse> studentCourses = service.searchStudentCourseList();
+
+    return converter.convertStudentDetails(students, studentCourses);
   }
 
   @GetMapping("/studentCourseList")
-  public List<raisetech.StudentManagement.StudentCourse> getStudentCourseList() {
+  public List<StudentCourse> getStudentCourseList() {
     return service.searchStudentCourseList();
   }
-
-  @GetMapping("/studentList/30s")
-  public List<Student> getStudentsIn30s() {
-    return service.searchStudentsIn30s();
-  }
-
-  @GetMapping("/studentCourseList/java")
-  public List<raisetech.StudentManagement.StudentCourse> getJavaCourse() {
-    return service.searchJavaCourse();
-  }
-
 }
