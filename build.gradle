@@ -25,7 +25,11 @@ repositories {
 }
 
 dependencies {
+
+	//spring boot
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+	//thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	//Apache Commons Lang benn　便利機能　ユーティリティ
 	implementation 'org.apache.commons:commons-lang3:3.20.0'
 
@@ -39,7 +43,7 @@ dependencies {
 	//MYBatis
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1'
 
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat-runtime'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
