@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>受講生登録</title>
+  <title>受講生更新</title>
 </head>
 <body>
-<h1>受講生登録</h1>
-<form th:action="@{/registerStudent}" th:object="${studentDetail}" method="post">
-  
+<h1>受講生更新</h1>
+<form th:action="@{/updateStudent}" th:object="${studentDetail}" method="post">
+  <input type="hidden" th:field="*{student.id}">
+
   <div>
     <label  for="name">名前:</label>
     <input type="text" id="name" th:field="*{student.name}" required />
-    </div>
+  </div>
 
   <div>
     <label for="kanaName">カナ名：</label>
@@ -47,15 +48,21 @@
     <input type="text" id="remark" th:field="*{student.remark}" />
   </div>
   <div th:each="course, stat : *{studentsCourses}">
-    <label for="courseName" th:for="studentsCourses[__${stat.index}__].courseName">受講コース名:</label>
+
+    <input type="hidden"
+           th:field="*{studentsCourses[__${stat.index}__].id}">
+    
+    <label th:for="'courseName' + ${stat.index}">
+      受講コース名:
+    </label>
     <input type="text"
            id="courseName"
            th:field="*{studentsCourses[__${stat.index}__].courseName}" />
   </div>
-      <div>
-      <button type="submit">登録</button>
-    </div>
-  
+  <div>
+    <button type="submit">更新</button>
+  </div>
+
 </form>
 </body>
 </html>
