@@ -22,18 +22,25 @@
   <tbody>
   <tr th:each="studentDetail : ${studentList}">
     <td th:text="${studentDetail.student.id}">1</td>
+
     <td>
       <a th:href="@{/student/{id}(id=${studentDetail.student.id})}"
          th:text="${studentDetail.student.name}">
       </a>
     </td>
-    <td th:text="${studentDetail.student.name}">山田太朗</td>
-    <td th:text="${studentDetail.student.kanaName}">ヤマダタロウ/</td>
-    <td th:text="${studentDetail.student.nickname}">タロウ/</td>
+
+    <td th:text="${studentDetail.student.kanaName}">ヤマダタロウ</td>
+
+    <td th:text="${studentDetail.student.nickname}">タロウ</td>
+
     <td th:text="${studentDetail.student.email}">yamada@example.com</td>
+
     <td th:text="${studentDetail.student.area}">東京</td>
+
     <td th:text="${studentDetail.student.age}">25</td>
+
     <td th:text="${studentDetail.student.sex}">男性</td>
+
     <td th:text="${studentDetail.student.remark}">特になし</td>
   </tr>
   </tbody>
