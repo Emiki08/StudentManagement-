@@ -7,14 +7,11 @@ import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 
 
-
-
 @Getter
 @Setter
 public class StudentDetail {
 
   private Student student;
-  private List<StudentCourse> studentCourse;
-
+  private List<StudentCourse> studentsCourses;
 
 }
