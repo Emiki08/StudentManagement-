@@ -18,7 +18,6 @@ public interface StudentRepository {
   @Select("""
 SELECT *
 FROM students
-WHERE is_deleted = false
 """)
   List<Student> search();
 
