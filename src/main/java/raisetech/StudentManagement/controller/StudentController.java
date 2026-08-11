@@ -71,7 +71,6 @@ public class StudentController {
     if (result.hasErrors()) {
       return "updateStudent";
     }
-
     service.updateStudent(studentDetail);
 
     return "redirect:/studentList";
@@ -93,7 +92,6 @@ public class StudentController {
     return "registerStudent";
   }
 
-
   // 登録処理
   @PostMapping("/registerStudent")
   public String registerStudent(
@@ -103,7 +101,6 @@ public class StudentController {
     if (result.hasErrors()) {
       return "registerStudent";
     }
-
     service.registerStudent(studentDetail);
 
     return "redirect:/studentList";

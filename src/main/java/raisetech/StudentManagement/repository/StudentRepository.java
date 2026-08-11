@@ -15,7 +15,10 @@ import raisetech.StudentManagement.domain.StudentDetail;
 @Mapper
 public interface StudentRepository {
 
-  @Select("SELECT * FROM students")
+  @Select("""
+SELECT *
+FROM students
+""")
   List<Student> search();
 
   @Select("SELECT * FROM students_courses")
