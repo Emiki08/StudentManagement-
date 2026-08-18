@@ -7,15 +7,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
+import jakarta.validation.Valid;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class StudentDetail {
 
+  @Valid
   private Student student;
-  private List<StudentCourse> studentsCourses;
+  @Valid
+  private List<StudentCourse> studentCourseList;
 
 }
