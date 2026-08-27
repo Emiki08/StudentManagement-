@@ -1,28 +1,28 @@
 package raisetech.StudentManagement.controller;
 
+import jakarta.validation.constraints.Size;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import raisetech.StudentManagement.controller.converter.StudentConverter;
-import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.annotation.Validated;
+import jakarta.validation.Valid;
 
 /**
  * 受講生の検索や登録、更新などを行うREST APIとして受け付けるControllerです。
  */
 
 @RestController
+@Validated
 public class StudentController {
 
   private StudentService service;
@@ -50,30 +50,41 @@ public class StudentController {
   }
 
   /**
-   * 受講生検索です。
+   * 受講生詳細の検索です。
    * IDに基づく任意の受講生の情報を取得します。
    *
    * @param id　受講生ID
    * @return 受講生
    */
   @GetMapping("/student/{id}")
-  public StudentDetail getStudent(@PathVariable int id) {
+  public StudentDetail getStudent(@PathVariable @Size(min = 1,max = 3) int id) {
     return service.searchStudent(id);
   }
 
-  @PostMapping("/updateStudent")
+  /**
+   * 受講生詳細の更新を行います。　キャンセルフラグの更新もここで行います（論理削除）
+   *
+   * @param studentDetail　受講生詳細
+   * @return　実行結果
+   */
+  @PutMapping("/updateStudent")
   public ResponseEntity<String> updateStudent(
-      @RequestBody StudentDetail studentDetail) {
+      @Valid @RequestBody StudentDetail studentDetail) {
     service.updateStudent(studentDetail);
 
     return ResponseEntity.ok("更新処理が成功しました。");
   }
 
-
+  /**
+   *受講生詳細の登録を行います。
+   *
+   * @param studentDetail　受講生詳細
+   * @return　実行結果
+   */
   // 登録処理
   @PostMapping("/registerStudent")
   public ResponseEntity<StudentDetail> registerStudent(
-      @RequestBody StudentDetail studentDetail) {
+      @Valid @RequestBody StudentDetail studentDetail) {
     StudentDetail responseStudentDetail = service.registerStudent(studentDetail);
     return ResponseEntity.ok(responseStudentDetail);
   }
