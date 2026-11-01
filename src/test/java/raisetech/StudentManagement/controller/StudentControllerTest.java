@@ -1,11 +1,9 @@
 package raisetech.StudentManagement.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -14,9 +12,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import java.util.List;
 import java.util.Set;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -24,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @WebMvcTest(StudentController.class)
 class StudentControllerTest {
@@ -64,21 +61,32 @@ class StudentControllerTest {
 
 
   @Test
-  void 受講生詳細の受講生でIDに数字以外を用いた時に入力チェックに掛かること(){
+  void 受講生詳細の検索_IDを指定して受講生情報が取得できること() throws Exception {
+    // 受講生情報を準備
     Student student = new Student();
     student.setId(1);
     student.setName("江並公史");
-    student.setKanaName("えなみこうじ");
+    student.setKanaName("エナミコウジ");
     student.setNickname("エナミ");
     student.setEmail("test@example.com");
     student.setArea("奈良県");
+    student.setAge(36);
     student.setSex("男性");
-    
 
-    Set<ConstraintViolation<Student>> violations = validator.validate(student);
-    
-    assertThat(violations.size()).isEqualTo(1);
-    assertThat(violations).extracting("message").containsOnly("カタカナのみ入力するようにして下さい。");
+    // 受講生コース情報は空のリストにする
+    StudentDetail studentDetail = new StudentDetail(student, List.of());
+
+    // searchStudent(1) が呼ばれたら、上記のデータを返す
+    when(service.searchStudent(1)).thenReturn(studentDetail);
+
+    // APIを呼び出して、レスポンスを確認
+    mockMvc.perform(get("/student/1"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.student.id").value(1))
+        .andExpect(jsonPath("$.student.name").value("江並公史"))
+        .andExpect(jsonPath("$.student.kanaName").value("エナミコウジ"));
+
+    verify(service, times(1)).searchStudent(1);
   }
 
 }
