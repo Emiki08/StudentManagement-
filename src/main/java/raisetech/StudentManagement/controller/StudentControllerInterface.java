@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.exception.TestException;
+import jakarta.validation.Valid;
 
 
 public interface StudentControllerInterface {
@@ -32,11 +33,11 @@ public interface StudentControllerInterface {
       summary = "受講生情報更新",
       description = "受講生の情報を更新します。"
   )
-  ResponseEntity<String> updateStudent(StudentDetail studentDetail);
+  ResponseEntity<String> updateStudent(@Valid StudentDetail studentDetail);
 
   @Operation(
       summary = "受講生登録",
       description = "受講生を登録します。"
   )
-  ResponseEntity<StudentDetail> registerStudent(StudentDetail studentDetail);
+  ResponseEntity<StudentDetail> registerStudent(@Valid StudentDetail studentDetail);
 }

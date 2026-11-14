@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +21,6 @@ import raisetech.StudentManagement.service.StudentService;
  */
 
 @RestController
-@Validated
 public class StudentController implements StudentControllerInterface {
 
   private StudentService service;
@@ -41,8 +39,7 @@ public class StudentController implements StudentControllerInterface {
   @Override
   @GetMapping("/studentList")
   public List<StudentDetail> getStudentList() throws TestException {
-    throw new TestException(
-        "現在のこのAPIは利用できません。URLは「studentList」ではなく「students」です。");
+    return service.searchStudentList();
   }
 
   @Override
@@ -61,7 +58,7 @@ public class StudentController implements StudentControllerInterface {
   @Override
   @GetMapping("/student/{id}")
   public StudentDetail getStudent(
-      @PathVariable @Size(min = 1, max = 3) int id) {
+      @PathVariable int id) {
     return service.searchStudent(id);
   }
 
@@ -75,7 +72,7 @@ public class StudentController implements StudentControllerInterface {
   @Override
   @PutMapping("/updateStudent")
   public ResponseEntity<String> updateStudent(
-      @Valid @RequestBody StudentDetail studentDetail) {
+       @RequestBody StudentDetail studentDetail) {
 
     service.updateStudent(studentDetail);
 
@@ -91,7 +88,7 @@ public class StudentController implements StudentControllerInterface {
   @Override
   @PostMapping("/registerStudent")
   public ResponseEntity<StudentDetail> registerStudent(
-      @Valid @RequestBody StudentDetail studentDetail) {
+      @RequestBody StudentDetail studentDetail) {
 
     StudentDetail responseStudentDetail =
         service.registerStudent(studentDetail);
